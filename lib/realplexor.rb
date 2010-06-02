@@ -34,7 +34,7 @@ class Realplexor
       if (value.class.name=='Fixnum'||value.class.name =='Bignum'||value.class.name=='String')
         id = value
         cursor = nil
-      elsif
+      else
         id = value[0]
         cursor = value[1]
       end
