@@ -87,7 +87,7 @@ class Realplexor
       id_prefixes.fill {|prefix| self.namespace + prefix}
     end
     resp = send_cmd("watch #{from_position}" + (id_prefixes ? " " + id_prefixes.join(" ") : "") )
-    p resp
+
     return [] if resp.blank?
     resp = resp.split("\n")
     events = []
@@ -102,8 +102,8 @@ class Realplexor
       end
       events.push({'event'=>event, 'pos' => pos, 'id'=>id})
     end
-    return events
 
+    return events
   end
 
   private
