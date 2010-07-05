@@ -62,8 +62,8 @@ class Realplexor
 
   def cmd_online(id_prefixes=[])
     
-    if self.namespace
-      id_prefixes.collect!{|value| self.namespace+value} if id_prefixes.empty?
+    if @namespace
+      id_prefixes.collect!{|value| @namespace+value} if id_prefixes.empty?
     end
     
     resp = send_cmd("online" +(id_prefixes ? ' '+id_prefixes.join(' ') : '' ))
@@ -81,24 +81,32 @@ class Realplexor
 
   def cmd_watch(from_position=0,id_prefixes=nil)
     from_position = from_position.to_i
-    if self.namespace
+    
+    if @namespace
       id_prefixes = [] unless id_prefixes
-      id_prefixes.fill {|prefix| self.namespace + prefix}
+      id_prefixes.fill {|prefix| @namespace + prefix}
     end
+    
     resp = send_cmd("watch #{from_position}" + (id_prefixes ? " " + id_prefixes.join(" ") : "") )
 
     return [] if resp.blank?
     resp = resp.split("\n")
+    
     events = []
+    
     resp.each do |line|
-      unless (m = line.match(/^ (\w+) \s+ ([^:]+):(\S+) \s* $/sx) )
+      
+      unless (m = line.match(/^ (\w+) \s+ ([^:]+):(\S+) \s* $/sx))
         puts "Cannot parse the event: \"#{line}\""
         next
       end
+      
       event,pos,id = m[1], m[2], m[3]
-      if from_position && self.namespace && id.rindex(self.namespace) ==0
-        id.sub!(self.namespace,'')
+      
+      if from_position && @namespace && id.rindex(@namespace) == 0
+        id.sub! @namespace, ''
       end
+
       events.push({'event'=>event, 'pos' => pos, 'id'=>id})
     end
 
