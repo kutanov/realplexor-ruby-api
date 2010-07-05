@@ -30,15 +30,14 @@ class Realplexor
 
     return nil if data.empty?
     data = data.to_json
+
     pairs = []
     ids_and_cursors.each do |value|
 
-        id = value
-        cursor = nil
       if %w{Fixnum Bignum String}.include? value.class.name
+        id, cursor = value, nil
       else
-        id = value[0]
-        cursor = value[1]
+        id, cursor = value[0], value[1]
       end
         
       raise IdentifierError, "Identifier must be alphanumeric" unless /^\w+$/ =~ id.to_s
@@ -51,16 +50,15 @@ class Realplexor
       else
         pairs.push(id)
       end
+
       if selected_ids
         selected_ids.each do |selected_id|
           pairs.push("*" + self.namespace + selected_id)
         end
       end
-        
     end
-    p pairs.join(',')
-    dispatch(pairs.join(','), data)
 
+    dispatch pairs.join(','), data
   end
 
   def cmd_online(id_prefixes=[])
