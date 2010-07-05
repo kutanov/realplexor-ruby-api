@@ -62,20 +62,22 @@ class Realplexor
   end
 
   def cmd_online(id_prefixes=[])
+    
     if self.namespace
       id_prefixes.collect!{|value| self.namespace+value} if id_prefixes.empty?
     end
+    
     resp = send_cmd("online" +(id_prefixes ? ' '+id_prefixes.join(' ') : '' ))
     return [] if resp.empty?
     resp = resp.split(',')
-    if self.namespace
-      prefix = Regexp.new('/^'+self.namespace+'/')
+
+    if @namespace
+      prefix = Regexp.new('/^'+@namespace+'/')
       resp.collect!{|r| r.sub!(prefix,''); r}
     end
-    #      Check for removing only prefix
+    
+    # Check for removing only prefix
     return resp
-
-
   end
 
   def cmd_watch(from_position=0,id_prefixes=nil)
