@@ -31,7 +31,7 @@ class Realplexor
   # #Send data
   def send_event(ids_and_cursors, data, selected_ids=nil)
 
-    return nil if data.blank?
+    return nil if data.empty?
     data = data.to_json
     pairs = []
     ids_and_cursors.each do |value|
@@ -71,7 +71,7 @@ class Realplexor
       id_prefixes.collect!{|value| self.namespace+value} if id_prefixes.empty?
     end
     resp = send_cmd("online" +(id_prefixes ? ' '+id_prefixes.join(' ') : '' ))
-    return [] if resp.blank?
+    return [] if resp.empty?
     resp = resp.split(',')
     if self.namespace
       prefix = Regexp.new('/^'+self.namespace+'/')
@@ -131,7 +131,7 @@ EOL
     socket.close_write
     results = socket.read
 
-    unless  results.blank?
+    unless results.empty?
       m = results.split(/\r?\n\r?\n\s*\n/s)
       r_headers, r_body = m[0], m[1]
       return [] if r_body.nil?
