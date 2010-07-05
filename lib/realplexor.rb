@@ -13,11 +13,10 @@ class Realplexor
   # #This function creates a connection object and sets params for new
   # connection #Params are host, port and an additional hash for extra params.
   #
-    self.port=port||80
-    self.host =host||'127.0.0.1'
-    self.identifier = params[:identifier]||'identifier'
-    self.namespace = params[:namespace]||nil
   def initialize(host = '127.0.0.1', port = 10010, params={})
+    @host, @port = host, port
+    @identifier = params[:identifier] || 'identifier'
+    @namespace = params[:namespace] || nil
   end
 
   # #This function provides logon to selected server
