@@ -107,6 +107,7 @@ class Realplexor
   end
 
   private
+  
   def send_cmd(cmd)
     dispatch(nil, cmd)
   end
@@ -126,28 +127,31 @@ class Realplexor
     unless results.empty?
       m = results.split(/\r?\n\r?\n\s*\n/s)
       r_headers, r_body = m[0], m[1]
+      
       return [] if r_body.nil?
+      
       if ( /^HTTP(?:\/(\d+\.\d+))?\s+(\d\d\d)\s*(\w+)/.match(r_headers) ) or
           raise  "Headers doesn't seem correct #{r_headers.inspect}"
         if $2.to_i!=200
           raise Error, "Request failed"
         end
       end
+      
       if (/^Content-Length: \s* (\d+)/mix.match(r_headers)) or
           raise  "Expected Content-Length in response wasn't found"
         exp_length = $1.to_i
       end
+      
       rec_length = r_body.length
-      if (exp_length != rec_length)
+      if exp_length != rec_length
         raise  "The expected length and recievied body length didn't match"
       end
-      r_body
+
       return r_body
     end
+
     return results
-
   end
-
 end
 
 
