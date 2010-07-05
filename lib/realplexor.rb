@@ -43,7 +43,6 @@ class Realplexor
       raise IdentifierError, "Identifier must be alphanumeric" unless /^\w+$/ =~ id.to_s
       id = self.namespace + id.to_s if self.namespace
 
-        throw :realplexor_error, "Cursor must be numeric" unless cursor.is_a?(Integer)
       if %w{Hash Array}.include? value.class.name
         raise CursorError, "Cursor must be numeric" unless cursor.is_a? Integer
         pairs.push(cursor.to_s+":"+id)
