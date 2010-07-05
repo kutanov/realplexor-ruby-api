@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'net/http'
 require 'socket'
 require 'rubygems'
@@ -27,7 +29,7 @@ class Realplexor
   end
 
   # #Send data
-  def send_event(ids_and_cursors, data, selected_ids=nil)
+  def send_event(ids_and_cursors = [], data = "",  selected_ids = nil)
 
     return nil if data.empty?
     data = data.to_json
