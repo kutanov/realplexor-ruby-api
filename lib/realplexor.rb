@@ -2,6 +2,10 @@ require 'net/http'
 require 'socket'
 class Realplexor
   include Socket::Constants
+  
+  class IdentifierError < StandardError; end
+  class CursorError < StandardError; end
+
   attr_accessor :host, :port, :timeout, :identifier, :namespace, :login, :password
    
   # #This function creates a connection object and sets params for new
@@ -39,11 +43,12 @@ class Realplexor
         cursor = value[1]
       end
         
-      throw :realplexor_error, "Identifier must be alphanumeric" unless (/^\w+$/=~id.to_s)
+      raise IdentifierError, "Identifier must be alphanumeric" unless /^\w+$/ =~ id.to_s
       id = self.namespace + id.to_s if self.namespace
 
       if (value.class.name=='Hash'||value.class.name =='Array' )
         throw :realplexor_error, "Cursor must be numeric" unless cursor.is_a?(Integer)
+        raise CursorError, "Cursor must be numeric" unless cursor.is_a? Integer
         pairs.push(cursor.to_s+":"+id)
       else
         pairs.push(id)
