@@ -31,11 +31,9 @@ class Realplexor
   # #Send data
   def send_event(ids_and_cursors, data, selected_ids=nil)
 
-    #      data=data.to_json
-    # Temp remove
     return nil if data.blank?
-    pairs = Array.new
     data = data.to_json
+    pairs = []
     ids_and_cursors.each do |value|
 
         id = value
