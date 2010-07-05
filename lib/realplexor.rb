@@ -112,17 +112,12 @@ class Realplexor
   end
 
   def dispatch(identifier, body)
-    #     Build HTTP request
-    headers= <<EOL
-X-Realplexor: #{self.identifier}=#{ (self.login ? (self.login + ':' + self.password + '@') : '' )}#{identifier}\r\n
-EOL
+    #  Build HTTP request
+    headers= "X-Realplexor: #{@identifier}=#{(@login ? (@login + ':' + @password + '@') : '')}#{identifier}\r\n"
+    data = "POST / HTTP/1.1\r\nHOST: #{@host}\r\nContent-Length: #{@length}\r\n#{headers.chomp}\r\n\r\n#{body.chomp}"
 
-    p     data = <<EOL
-POST / HTTP/1.1\r\nHOST: #{self.host}\r\nContent-Length: #{body.length}\r\n#{headers.chomp}\r\n#{body.chomp}
-EOL
-      
-    sockaddr = Socket.pack_sockaddr_in( self.port, self.host)
-    socket = Socket.new( AF_INET, SOCK_STREAM, 0 )
+    sockaddr = Socket.pack_sockaddr_in @port, @host
+    socket = Socket.new(AF_INET, SOCK_STREAM, 0)
     socket.connect(sockaddr)
     socket.write data.chomp
     socket.close_write
