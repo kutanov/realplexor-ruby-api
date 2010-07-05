@@ -161,11 +161,3 @@ class Realplexor
     return results
   end
 end
-
-
-      
-
-
-
-
-  
