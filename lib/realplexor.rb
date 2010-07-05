@@ -1,5 +1,7 @@
 require 'net/http'
 require 'socket'
+require "json"
+
 class Realplexor
   include Socket::Constants
   
@@ -33,6 +35,7 @@ class Realplexor
     # Temp remove
     return nil if data.blank?
     pairs = Array.new
+    data = data.to_json
     ids_and_cursors.each do |value|
 
       if (value.class.name=='Fixnum'||value.class.name =='Bignum'||value.class.name=='String')
