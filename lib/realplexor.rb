@@ -1,6 +1,7 @@
 require 'net/http'
 require 'socket'
-require "json"
+require 'rubygems'
+require 'json'
 
 class Realplexor
   include Socket::Constants
