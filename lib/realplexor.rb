@@ -21,10 +21,8 @@ class Realplexor
 
   # #This function provides logon to selected server
   def logon(login, password)
-    self.login = login
-    self.password = password
-    self.namespace = self.login + "_" + (self.namespace||'')
-
+    @login, @password = login, password
+    @namespace = @login + "_" + (@namespace || '')
   end
 
   # #Send data
