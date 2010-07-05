@@ -89,7 +89,7 @@ class Realplexor
     
     resp = send_cmd("watch #{from_position}" + (id_prefixes ? " " + id_prefixes.join(" ") : "") )
 
-    return [] if resp.blank?
+    return [] if resp.empty?
     resp = resp.split("\n")
     
     events = []
