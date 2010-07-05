@@ -71,7 +71,7 @@ class Realplexor
     resp = resp.split(',')
 
     if @namespace
-      prefix = Regexp.new('/^'+@namespace+'/')
+      prefix = %{/^#{@namespace}/}
       resp.collect!{|r| r.sub!(prefix,''); r}
     end
     
