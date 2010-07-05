@@ -38,9 +38,9 @@ class Realplexor
     data = data.to_json
     ids_and_cursors.each do |value|
 
-      if (value.class.name=='Fixnum'||value.class.name =='Bignum'||value.class.name=='String')
         id = value
         cursor = nil
+      if %w{Fixnum Bignum String}.include? value.class.name
       else
         id = value[0]
         cursor = value[1]
@@ -49,8 +49,8 @@ class Realplexor
       raise IdentifierError, "Identifier must be alphanumeric" unless /^\w+$/ =~ id.to_s
       id = self.namespace + id.to_s if self.namespace
 
-      if (value.class.name=='Hash'||value.class.name =='Array' )
         throw :realplexor_error, "Cursor must be numeric" unless cursor.is_a?(Integer)
+      if %w{Hash Array}.include? value.class.name
         raise CursorError, "Cursor must be numeric" unless cursor.is_a? Integer
         pairs.push(cursor.to_s+":"+id)
       else
